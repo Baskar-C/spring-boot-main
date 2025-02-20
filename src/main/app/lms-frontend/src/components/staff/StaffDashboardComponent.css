@@ -1,0 +1,29 @@
+#root {
+    margin: 0 auto; 
+    text-align: center;
+    width :100% !important;   
+  }
+.parent-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+}
+.emploee-page-header {
+    text-align: left;
+    justify-content: center;
+    height: 40vh;
+    background-color: #BDBDBD;
+    margin-top: 10vh;
+    margin-bottom: 5vh;
+    color: white;
+    background-image: url("./../../image/employee.png");
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
+    padding: 100px;
+}
+button{
+    all: unset;
+    border: 1px solid #FFFFFF;
+    padding: 5px;
+}

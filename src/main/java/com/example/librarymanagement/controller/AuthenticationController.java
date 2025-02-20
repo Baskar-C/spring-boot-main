@@ -1,10 +1,7 @@
 package com.example.librarymanagement.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.librarymanagement.config.LoginUserDto;
 import com.example.librarymanagement.config.RegisterUserDto;
@@ -12,6 +9,8 @@ import com.example.librarymanagement.modal.LoginResponse;
 import com.example.librarymanagement.modal.User;
 import com.example.librarymanagement.service.AuthenticationService;
 import com.example.librarymanagement.service.JwtService;
+
+import java.util.Date;
 
 @RequestMapping("/auth")
 @RestController
@@ -35,12 +34,12 @@ public class AuthenticationController {
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
 		System.out.println(loginUserDto);
-		;
 		User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
 		String jwtToken = jwtService.generateToken(authenticatedUser);
 
 		LoginResponse loginResponse = new LoginResponse();
+		loginResponse.setUser(authenticatedUser);
 		loginResponse.setToken(jwtToken);
 		loginResponse.setExpiresIn(jwtService.getExpirationTime());
 

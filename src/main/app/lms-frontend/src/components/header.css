@@ -1,0 +1,27 @@
+.css-hyum1k-MuiToolbar-root {
+    min-height: 35px !important;
+}
+.css-11b3ww9-MuiPaper-root-MuiAppBar-root{
+    min-height: 35px !important;
+}
+
+.login-button{
+    padding: 10px 20px;
+    background-color: #0257b8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+.register-link-button{
+    min-width: 70px;
+    border: none;
+    color: #FFFFFF;
+    margin-left: 2px;
+}
+.register-link-button:hover{
+    border-radius: 5px;
+    border: 1px solid #FFFF;
+    margin-left: 2px;
+}

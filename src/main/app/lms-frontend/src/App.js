@@ -3,41 +3,46 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import FooterComponent from './components/FooterComponent';
 import HeaderComponent from './components/HeaderComponent';
 import { AuthProvider } from './context/AuthContext';
-import Dshboard from './components/Dashboard';
-import UplodeQustion from './components/UplodeQustions';
-import Exam from './components/Exam';
+
+import Dashboard from './components/dashboard/Dashboard';
+import UploadQuestions from './components/qustion/UploadQuestions';
+import ExamComponent from './components/exam/ExamComponent';
+import StudentDashboardComponent from './components/student/StudentDashboardComponent';
+import StaffDashboardComponent from './components/staff/StaffDashboardComponent';
+import DepartmentDashboardComponent from './components/department/DepartmentDashboardComponent';
+import CodeEditor from './components/editor/editor';
+
+import StudentPage from './components/StudentDashboard/StudentPage';
 
 import LoginComponent from './components/LoginComponent';
 import Register from './components/RegisterComponent';
-import PrivateRoutes from './PrivateRoute';
 function App() {
   return (
-    <AuthProvider>
-      <div>
+    <BrowserRouter>
+      <AuthProvider>
+        <HeaderComponent />
+        <Routes>
 
-        <BrowserRouter>
+          <Route path="/" element={<LoginComponent />} />
+          <Route path="/register" element={<Register />} />
 
-          <HeaderComponent />
+          <Route path="/home" element={<Dashboard />} />
+          <Route path="/students" element={<StudentDashboardComponent />} />
+          <Route path="/employees" element={<StaffDashboardComponent />} />
+          <Route path="/departments" element={<DepartmentDashboardComponent />} />
+          <Route path="/uploadquestions" element={<UploadQuestions />} />
+          <Route path="/exam" element={<ExamComponent />} />
+          <Route path="/editor" element={<CodeEditor />} />
+          <Route path="/StudentPage" element={<StudentPage />} />"
 
-          <Routes>
+        </Routes>
 
-            <Route path="/" element={<LoginComponent />}></Route>
-            <Route path="/register" element={<Register />}></Route>
 
-            
+        <FooterComponent />
 
-            <Route element={<PrivateRoutes />}>
-              <Route path="/home" element={<Dshboard />}></Route>
-              <Route path="/qustion" element={<UplodeQustion />}></Route>
-              <Route path="/exam" element={<Exam />}></Route>
-            </Route>
-          </Routes>
+      </AuthProvider>
 
-          <FooterComponent />
-        </BrowserRouter>
-
-      </div>
-    </AuthProvider>
+    </BrowserRouter>
   );
 }
 

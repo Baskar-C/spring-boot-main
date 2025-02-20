@@ -1,69 +1,103 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useAuth, logout } from '../context/AuthContext';
-import { AuthProvider } from '../context/NewAuthContext';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 import './../Style/login.css';
 
-const Login = (props) => {
-    const [email, setEmail] = useState('');
-    const [status, updateStatus] = useState('');
-    const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+const Login = () => {
     const { login } = useAuth();
-    const onButtonClick = async (event) => {
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
+    const handleEmailChange = (event) => {
+        const value = event.target.value.trim();
+        setEmailError(value === '' ? 'Email is required' : '');
+        setEmail(value);
+    };
+
+    const handlePasswordChange = (event) => {
+        const value = event.target.value.trim();
+        setPasswordError(value === '' ? 'Password is required' : '');
+        setPassword(value);
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        email.trim == "" ? setEmailError("Invalid Email...!") : "";
-        password.trim == "" ? setPasswordError("Invalid Password...!") : "";
-        const input = {
-            "email": email,
-            "password": password
+
+        const credentials = {
+            email: email.trim(),
+            password: password.trim(),
+        };
+
+        if (credentials.email && credentials.password) {
+            try {
+
+                await login(credentials);
+                navigate('/home');
+            } catch (error) {
+                setEmailError('Invalid email or password');
+            }
         }
-        if (input.email.trim != "" && input.password.trim != "") {
-            let status = await login(input);
-            updateStatus(status);
-        }
-    }
+    };
 
     return (
-        <div className={'parent-container'}>
-            <div className={'mainContainer'}>
-                <div className={'titleContainer'}>
+        <div className="parent-container">
+            <div className="mainContainer">
+                <div className="titleContainer">
                     <div>Login</div>
                 </div>
                 <br />
-                <div className={'inputContainer'}>
+                <div className="inputContainer">
                     <input
                         value={email}
                         placeholder="Enter your email here"
-                        onChange={(ev) => setEmail(ev.target.value)}
-                        className={'inputBox'}
+                        onChange={handleEmailChange}
+                        className="inputBox"
                     />
-                    <label className="errorLabel" color='alert'>{emailError}</label>
+                    <label className="errorLabel">{emailError}</label>
                 </div>
                 <br />
-                <div className={'inputContainer'}>
+                <div className="inputContainer">
                     <input
                         value={password}
                         placeholder="Enter your password here"
                         type="password"
-                        onChange={(ev) => setPassword(ev.target.value)}
-                        className={'inputBox'}
+                        onChange={handlePasswordChange}
+                        className="inputBox"
                     />
-                    <label color='alert' className="errorLabel">{passwordError}</label>
+                    <label className="errorLabel">{passwordError}</label>
                 </div>
                 <br />
-                <div className={'inputContainer'}>
-                    <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
+                <div className="inputContainer">
+                    <input
+                        id="submit"
+                        className="inputButton"
+                        type="button"
+                        onClick={handleSubmit}
+                        value="Log in"
+                    />
+                    <label className="errorLabel" />
 
                 </div>
-                <label type="button" value={'for sign-up'} />
+                <br />
+                <div className="inputContainer">
+                    <input
+                        id="submit"
+                        className="input-link"
+                        type="button"
+                        onClick={() => navigate('/register')}
+                        value="forget password?"
+                    />
+                </div>
 
             </div>
-            <div className='imag-container' />
-
+            <div className="imag-container" />
         </div>
-    )
-}
+    );
+};
 
 export default Login

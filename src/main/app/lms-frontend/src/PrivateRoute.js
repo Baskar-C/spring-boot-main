@@ -1,13 +1,30 @@
-import { Outlet, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
-let token = sessionStorage.getItem('token');
+import { whitelistedRoutes } from './whitelistedRoutes';
 
-const PrivateRoutes = () => {
- 
-  let auth = { 'token': token }
+const PrivateRoute = ({ component: Component, path, requiredRole, ...rest }) => {
+  const { isAuthenticated, role } = useAuth();
+
+  if (whitelistedRoutes.includes(path)) {
+    return <Route path={path} element={<Component />} {...rest} />;
+  }
+
+  
+
   return (
-    auth.token !=null? <Outlet /> : <Navigate to="/" />
-  )
-}
+    <Route
+      path={path}
+      element={
+        isAuthenticated ? (
+          <Component />
+        ) : (
+          <Navigate to="/" />
+        )
+      }
+      {...rest}
+    />
+  );
+};
 
-export default PrivateRoutes
+export default PrivateRoute;
